@@ -1,0 +1,48 @@
+logging:
+  pattern:
+    console: "[API Composition] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+  
+server:
+  port: 9992
+  
+spring:
+  application:
+    name: api-composition
+  main:
+    banner-mode: OFF
+  devtools:
+    restart:
+      additional-paths:
+      - conf/**
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+        health-check-path: /ping
+        instance-id: api-composition-${random.int}
+  cache:
+    caffeine: 
+      spec: initialCapacity=20,maximumSize=200,expireAfterAccess=30m
+  zipkin:    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+    
+management:
+  metrics:
+    export:
+      elastic:
+        enabled: true
+        step: 1m
+        host: http://localhost:9200
+        index: ms-pattern-metrics-${spring.application.name}
+        auto-create-index: false
+  endpoints:    web:      exposure:        include:
+        - info
+        - health        - loggers
+        - mappings
+
+# see sentry.io documentation for the setting
+sentry:
+  dsn: https://your-sentry-url@xxxxxx.ingest.sentry.io/yyyyyy
+  traces-sample-rate: 1.0

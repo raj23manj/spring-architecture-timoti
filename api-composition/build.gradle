@@ -1,0 +1,76 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.course.microservice'
+version = '2.0.0'
+sourceCompatibility = '17'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2021.0.0")
+	set('caffeineVersion', "3.0.5")
+	set('micrometerElasticVersion', "1.8.1")
+	set('logstashEncoder', "7.0.1")
+	set('sentrySpringVersion', "5.5.2")
+	set('apacheCommonsLang3Version', "3.12.0")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	// cache
+	implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
+
+	// application metric & log aggregation
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation "io.micrometer:micrometer-registry-elastic:${micrometerElasticVersion}"
+	implementation "net.logstash.logback:logstash-logback-encoder:${logstashEncoder}"
+
+	// distributed tracing
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+	
+	// exception tracking
+	implementation "io.sentry:sentry-spring-boot-starter:${sentrySpringVersion}"
+	implementation "io.sentry:sentry-logback:${sentrySpringVersion}"
+
+	implementation "org.apache.commons:commons-lang3:${apacheCommonsLang3Version}"
+	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'conf'
+  		}
+  	}
+}

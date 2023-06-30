@@ -1,0 +1,3 @@
+# Start another instance of payroll-compensation service
+
+./gradlew bootRun --args='--server.port=9993'
