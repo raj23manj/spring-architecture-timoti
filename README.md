@@ -11,7 +11,7 @@
   - Hexagonal architecture
   - usage of cqs pattern
 
-3) Inter Process Communications
+3) Inter Process Communications(hr.*)
   - Synchronous(one-to-one) grpc/rest api calls
   - Asynchronous(one-to-many) pub/sub pattern
   - use open-feign for ipc(sync). Instead of writing rest code use feign and use like repo code(section7, 17)
@@ -28,3 +28,32 @@
     * To enable retry attempt, do it kafka itself. By adding a DLQ(dead letter queue topic). This will used by the consumer
       to add msgs if there is serialization error, cannot find record using id etc
   - Circuit breaker alternative resilience4j for sync
+
+4) Data Transaction across services
+  - Database Log Tailing
+    * addition, updation and deletion changes are published.(change data capture)
+    * Transaction log mining(Debezium + apache)(section 8, 24), reads logs directly from databases(psql, mongodb, casandra)(hr.performance-management & hr-employee movement)
+    * Alternative is to use Polling publisher(section  8, 27) using postman runner at 5:00
+  - Distributed transactions across microservices
+   * implement using api calls sequentially A -> B -> C -> A or make one service a point of center A->B, A->C
+     Pros: Easy straight forward
+     cons: 
+        -> All nodes must be available
+        -> we cannot rollback microservice transactions, records will be created
+        -> can cause inconsistent data/information
+   * Saga pattern(section 8, 28)
+      -> Asyc communication via message broker
+      -> Sequence of local transactions
+      -> Each local transaction update then publish
+      -> Saga coordination approach
+        - Choreography A -> B -> C -> A
+        - Orchestration A->B, A->C
+      -> Pro: 
+        - usually there is a pending/progress status
+        - consistent data
+        - Loose couple
+      -> Cons: 
+        - implementation harder
+      -> Saga Error Handling(commit & rollback)
+        - we cannot rollback in saga pattern
+        - need to handle compentation. If bank debited and error occurs, then credit has to be done 
