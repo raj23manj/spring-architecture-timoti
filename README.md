@@ -56,4 +56,15 @@
         - implementation harder
       -> Saga Error Handling(commit & rollback)
         - we cannot rollback in saga pattern
-        - need to handle compentation. If bank debited and error occurs, then credit has to be done 
+        - need to handle compensation. If bank debited and error occurs, then credit has to be done
+5) Querying data from multiple services
+  - Database per service will be there
+  - Views can be used to show data from different database for reports(section 9, 35, 2:00)
+  - Api Composition, get data using apis and combine.
+  - CQRS(Command Query Responsibility Segregation)
+    * a separate db will be needed, events published will be saved in here as history.
+    * apis can be exposed to show reports
+    * Pros: simple & fast. Not depends on database product
+    * Cons: Increase complexity. Data inconsistency possible
+    * Good to use log miner like debezium to track changes. If dev forgets to publish events data inconsistency will be there
+  - Large Data, use pagination
