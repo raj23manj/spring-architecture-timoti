@@ -67,4 +67,12 @@
     * Pros: simple & fast. Not depends on database product
     * Cons: Increase complexity. Data inconsistency possible
     * Good to use log miner like debezium to track changes. If dev forgets to publish events data inconsistency will be there
-  - Large Data, use pagination
+  - Large Data, use pagination. Use of custom annotation in hr-performance management -> repository -> PerformanceIndicatorRepository.
+    @RepositoryRestResource(collectionResourceRel = "indicator_spring", path = "indicator_spring") (https://www.baeldung.com/spring-data-rest-intro)
+6) Event Sourcing with Axon(event sourcing/cqrs) Framework
+  - hr-industrial-relation
+7) API gateway/composer
+  - spring cloud gateway
+  - spring webflux
+  - project-api-gateway
+8) Cache
