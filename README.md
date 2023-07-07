@@ -76,3 +76,9 @@
   - spring webflux
   - project-api-gateway
 8) Cache
+9) backenf for frontend
+10) Production setup 
+  - Creds using vault
+  - centralized logging
+  - using hashi corp vault for configurations & consul for storage (section 14, 52)
+    * microservice-chassis-three
