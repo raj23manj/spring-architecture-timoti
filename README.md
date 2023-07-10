@@ -82,3 +82,21 @@
   - centralized logging
   - using hashi corp vault for configurations & consul for storage (section 14, 52)
     * microservice-chassis-three
+    * Prepare for production: 
+      - health check(ping)
+      - Application metrics(infra metrics) spring provides spring actuator + micrometer to send details to upstream
+        1) ElasticSearch, Logstash, Kibana
+        2) Prometheus, influxDB, Grafana
+        3) Datadog
+        4) Dynatrace
+        5) NewRelic
+      - Log Aggregation
+        1) ElasticSearch, Logstash, Kibana, Beats
+        2) Prometheus, influxDB, Grafana
+      - Distributed Tracing
+        1) zipkin
+        2) jager
+      - Exception Handling
+        1) Sentry(free plan with limited capability)
+        2) airbrake
+        3) raygun
